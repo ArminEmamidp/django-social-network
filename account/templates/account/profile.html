@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ user.username }}</title>
+  <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <style>
+    #profile-btns a {
+      margin-left: 1%;
+    }
+  </style>
+  {% include 'base.html' %}
+</head>
+
+<body>
+  {% include 'navbar.html' %}
+  {% include "messages.html" %}
+
+  <section style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="row"> 
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width:150px;" id="user-img">
+              <h5 class="my-3">{{ user.username }}</h5>
+                {% if request.user != user and is_following == False %}
+                <a href="{% url 'account:user_follow' user.username %}" class="btn btn-primary">Follow</a>
+                {% elif request.user != user and is_following == True %}
+                <a href="{% url 'account:user_unfollow' user.username %}" class="btn btn-danger">Unfollow</a>
+                {% endif %}
+                {% if request.user == user %}
+                <a href="{% url 'account:user_delete' user.username %}" class="btn btn-outline-danger">Delete</a>
+                <a href="{% url 'account:user_edit_profile' user.username %}" class="btn btn-outline-primary">Edit</a>
+                <a href="{% url 'posts:post_create' %}" class="btn btn-outline-success">Add Post</a>
+                <a href="{% url 'account:user_create_story' %}" class="btn btn-outline-secondary">Add Story</a>
+                <br><br>
+                <a href="{% url 'account:user_create_music' %}" class="btn btn-outline-warning">Add Music</a>
+                {% endif %}
+              </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Full Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ user.first_name }} {{ user.last_name }}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{ user.email }}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Address</p>
+                  </div>
+                  <div class="col-sm-9">
+                    {% if user.profile.address %}
+                    <p class="text-muted mb-0">{{ user.profile.address }}</p>
+                    {% else %}
+                    <p class="text-muted mb-0">Empty</p>
+                    {% endif %}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Age</p>
+                  </div>
+                  <div class="col-sm-9">
+                    {% if user.profile.age %}
+                    <p class="text-muted mb-0">{{ user.profile.age }}</p>
+                    {% else %}
+                    <p class="text-muted mb-0">Empty</p>
+                    {% endif %}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Bio</p>
+                  </div>
+                  <div class="col-sm-9">
+                    {% if user.profile.bio %}
+                    <p class="text-muted mb-0">{{ user.profile.bio }}</p>
+                    {% else %}
+                    <p class="text-muted mb-0">Empty</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Followers</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0"><a href="{% url 'account:user_followers' user.username %}">{{ user.followers.count }}</a></p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Following</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0"><a href="{% url 'account:user_followings' user.username %}">{{ user.followings.count }}</a></p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Posts</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0"><a href="{% url 'account:user_posts' user.username %}">{{ user.posts.count }}</a></p>
+                    </div>
+                    <br>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Stories</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0"><a href="{% url 'account:user_stories' user.username %}">{{ user.stories.count }}</a></p>
+                    </div>
+                    <br>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Musics</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0"><a href="{% url 'account:user_musics' user.username %}">{{ user.musics.count }}</a></p>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+  </section>
+</body>
+
+</html>

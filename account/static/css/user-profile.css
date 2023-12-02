@@ -1,0 +1,9 @@
+.user-info {
+    padding: 3%;
+    color: black;
+    background-color: lightblue;
+}
+
+#profile-btns a {
+    margin-left: 5%;
+}

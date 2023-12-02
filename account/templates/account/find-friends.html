@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Friends</title>
+    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    {% include 'base.html' %}
+    <style>
+      #a-profile {padding-right: 1%}
+      #search-form{display: flex;margin:1%}
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include "messages.html" %}
+
+    {% if users %}
+    <section style="background-color: #eee;">
+      <form accept="" method="GET" class="w-50" id="search-form">
+        <input type="text" placeholder="Search user..." name="search_text" class="form-control">
+        <input type="submit" value="Search" class="btn btn-outline-primary">
+      </form> <br>
+      {% for user in users %}
+      <div class="container">
+        <div class="row">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{ user.username }}</h5>
+              <div id="a-profile" class="d-flex justify-content-center mb-2" id="profile-btns">
+                <a  href="{% url 'account:user_profile' user.username  %}" class="btn btn-outline-primary">Profile</a>
+              </div>
+              {% if user.profile.bio %}
+              <p>{{ user.profile.bio }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+</body>

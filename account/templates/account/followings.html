@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Followings of {{ user.username }}</title>
+    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    {% include 'base.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include "messages.html" %}
+
+    {% if followings %}
+    <section style="background-color: #eee;"> <br>
+        {% for following in followings %}
+        <div class="container">
+          <div class="row">
+            <div class="card mb-4">
+              <div class="card-body text-center">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                  class="rounded-circle img-fluid" style="width: 150px;">
+                <h5 class="my-3">{{ following.to_user.username }}</h5>
+                <div id="a-profile" class="d-flex justify-content-center mb-2" id="profile-btns">
+                  <a  href="{% url 'account:user_profile' following.to_user.username  %}" class="btn btn-outline-primary">Profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </section>
+    {% else %}
+    <h1 style="text-align: center;" class="text-danger">No followings</h1>
+    {% endif %}
+</body>

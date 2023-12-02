@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts of {{ user.username }}</title>
+    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <style type="text/css">
+        .card-title{
+            font-weight: bold;
+            font-size: 22px;
+        }
+        .card-text{
+            font-size: 15px;
+            color: #555;
+        }
+        #search-form{display: flex;margin: 1%}
+    </style>
+    {% include 'base.html' %}
+</head>
+<div>
+    {% include 'navbar.html' %}
+    {% include "messages.html" %}
+
+    {% if posts %}
+    <section style="background-color: #eee;">
+    <form accept="" method="GET" class="w-50" id="search-form">
+        <input type="text" placeholder="Search post..." name="search_text" class="form-control">
+        <input type="submit" value="Search" class="btn btn-outline-primary">
+    </form> <br>
+    {% for post in posts %}
+        <div class="container">
+            <div class="card">
+                <img src="/media/{{ post.main_image }}" class="card-img-top" alt="...">
+                <div class="card-body mt-3">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text pt-2 pb-3">{{ post.description }}</p>
+                    <p>Author: {{ post.user.username }}<br> Created: {{ post.created }} <br> Updated: {{ post.updated }}</p>    
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-primary">Detail</a>
+                    {% if request.user == user %}
+                    <a href="{{ post.post_update }}" class="btn btn-outline-success">Update</a>
+                    <a href="{{ post.post_delete }}" class="btn btn-outline-danger">Delete</a>
+                    {% endif %}    
+                </div>
+            </div>
+        </div> <br>
+    {% endfor %}
+    </section>
+    {% else %}
+    <h1 style="text-align: center;" class="text-danger">No posts</h1>
+    {% endif %}
+</body>
+</html>
+

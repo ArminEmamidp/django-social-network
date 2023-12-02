@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musics of {{ user.username }}</title>
+    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    {% include 'base.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include "messages.html" %}
+
+    {% if musics %}
+    <section style="background-color: #eee;"> <br>
+        {% for music in musics %}
+        <div class="container">
+          <div class="row">
+            <div class="card mb-4">
+              <div class="card-body text-center">
+                <h3>{{ music.singer_name }}</h3>
+                <h4>{{ music.song_name }}</h4>
+                <audio src="/media/{{ music.music }}" controls></audio>
+                {% if request.user == user %}
+                <hr>
+                <a href="{% url 'account:user_delete_music' music.user.username music.pk %}" class="btn btn-outline-danger w-50">Delete</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </section>
+    {% else %}
+    <h1 style="text-align: center;" class="text-danger">No musics</h1>
+    {% endif %}
+</body>

@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <!-- <link rel="stylesheet" href="{% static 'css/posts.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/post-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    {% include 'base.html' %}
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    {% include "messages.html" %}
+
+    <div class="post-info bg-secondary">
+        <h4>Author: <a href="{% url 'account:user_profile' post.user.username %}" class="text-dark">{{ post.user.username }}</a></h4>
+        <p>Created: {{ post.created }} --|-- Updated: {{ post.updated }}</p>
+        <!-- <p>Updated: {{ post.updated }}</p> -->
+        <p>Likes: {{ post.likes.count }} --|-- Comments: {{ comments.count }}</p>
+    </div>
+    <div class="content bg-faded text-light">
+        <a href="{{ post.post_like }}" class="{% if can_like == False %} disabled {% endif %}btn btn-outline-light">{{ post.likes.count }} Like</a>
+        <p>{{ post.body }}</p>
+        <hr>
+        <form action="" method="post" class="comment-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Send" class="btn btn-outline-primary">
+        </form> <br>
+        <h3>{{ comments.count }} Comments</h3>
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="comment">
+            <h5><a href="{% url 'account:user_profile' comment.user.username %}">{{ comment.user.username }}</a> | {{ comment.created }}</h4>
+            <hr>
+            <p>{{ comment.body }}</p>
+            <hr>
+            <form action="{{ comment.add_reply }}" method="post" class="reply-form">
+                {% csrf_token %}
+                {{ form2.as_p }}
+                <input type="submit" value="Send" class="btn btn-outline-primary">
+            </form> <br>
+            {% for reply in comment.replies.all %}
+            <div class="reply">
+                <h6><a href="{% url 'account:user_profile' reply.user.username %}">{{ reply.user.username }}</a> | {{ reply.created }}</h4>
+                <hr>
+                <p>{{ reply.body }}</p>
+            </div> <br>
+            {% endfor %}
+        </div> <br>
+        {% endfor %}
+        {% endif %}
+    </div>
+</body>
+
+</html>

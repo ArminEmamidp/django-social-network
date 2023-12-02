@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <style type="text/css">
+        .card-title{
+            font-weight: bold;
+            font-size: 22px;
+        }
+        .card-text{
+            font-size: 15px;
+            color: #555;
+        }
+        #search-form{display: flex;margin: 1%}
+    </style>
+    {% include 'base.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include "messages.html" %}
+
+    {% if posts %}
+    <form accept="" method="GET" class="w-50" id="search-form">
+        <input type="text" placeholder="Search post..." name="search_text" class="form-control">
+        <input type="submit" value="Search" class="btn btn-outline-primary">
+    </form>
+    {% for post in posts %}
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mt-5">
+                    <div class="card">
+                        <img src="/media/{{ post.main_image }}" class="card-img-top" alt="...">
+                        <div class="card-body mt-3">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text pt-2 pb-3">{{ post.description }}</p>
+                            <p>Author: {{ post.user.username }}<br> Created: {{ post.created }} <br> Updated: {{ post.updated }}</p>    
+                            <a href="{{ post.get_absolute_url }}" class="btn btn-outline-primary">Read Post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+    <h1 style="text-align: center;" class="text-danger">No posts</h1>
+    {% endif %}
+    <br>
+    
+</body>
+</html>
