@@ -12,6 +12,6 @@ Project implementation steps:
     
     python manage.py runserver
 
-3: Open the browser and go to the address:
+3: Open the browser and go to this address:
 
     localhost:8000
