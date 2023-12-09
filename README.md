@@ -10,10 +10,6 @@ Project implementation steps:
     
     python manage.py migrate
     
-    python manage.py makemigrations
-    
-    python manage.py migrate
-    
     python manage.py runserver
 
 3: Open the browser and go to the address:
