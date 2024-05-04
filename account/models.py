@@ -1,0 +1,54 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.urls import reverse
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    age = models.PositiveSmallIntegerField(blank=True, null=True)
+    address = models.CharField(max_length=120, blank=True, null=True)
+    bio = models.TextField(max_length=5000, blank=True, null=True)
+
+
+class Relation(models.Model):
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followings')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['?']
+
+    def __str__(self):
+        return f"{self.from_user.username} followed {self.to_user.username}"
+
+
+class Music(models.Model):
+    auther = models.ForeignKey(User, on_delete=models.CASCADE, related_name='musics')
+    singer_name = models.CharField(max_length=100)
+    music_name = models.CharField(max_length=100)
+    music_file = models.FileField(upload_to='users/musics/')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['?']
+
+    def delete(self):
+        return reverse('account:user_music_delete', args=[self.auther, self.id])
+
+    def __str__(self):
+        return f"{self.singer_name} - {self.music_name}"
+
+
+class Image(models.Model):
+    auther = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
+    image_file = models.ImageField(upload_to='users/images/')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['?']
+
+    def __str__(self):
+        return f"Image id: {self.id}"
+
+    def delete(self):
+        return reverse('account:user_image_delete', args=[self.auther, self.id])

@@ -1,0 +1,69 @@
+from django import forms
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.http import HttpRequest
+
+from .models import Music, Image, Profile
+
+class UserLoginForm(forms.Form):
+    username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'Username', 'class':'form-control'}))
+    password = forms.CharField(max_length=168, label='Password', widget=forms.TextInput(attrs={'placeholder':'Password', 'type':'password', 'class':'form-control'}))
+
+
+class UserRegisterForm(forms.Form):
+    username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'Username', 'class':'form-control'}))
+    first_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'First Name', 'class':'form-control'}))
+    last_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'Last Name', 'class':'form-control'}))
+    email = forms.EmailField(max_length=200, widget=forms.TextInput(attrs={'placeholder':'Email', 'class':'form-control'}))
+    password1 = forms.CharField(max_length=168, label='Password', widget=forms.TextInput(attrs={'placeholder':'Password', 'type':'password', 'class':'form-control'}))
+    password2 = forms.CharField(max_length=168, label='Password(Again)', widget=forms.TextInput(attrs={'placeholder':'Password', 'type':'password', 'class':'form-control'}))
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        user = User.objects.filter(username=username)
+
+        if user.exists():
+            raise ValidationError('This username already exists!')
+        return username
+
+    def clean(self):
+        cd = self.cleaned_data
+        p1 = cd.get('password1')
+        p2 = cd.get('password2')
+
+        if p1 and p2 and p1 != p2:
+            raise ValidationError('Passwords must match!')
+
+
+class UserUpdateProfileForm(forms.ModelForm):
+    # username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'Username', 'class':'form-control'}))
+    first_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'First Name', 'class':'form-control'}))
+    last_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'Last Name', 'class':'form-control'}))
+    email = forms.EmailField(max_length=200, widget=forms.TextInput(attrs={'placeholder':'Email', 'class':'form-control'}))
+
+    class Meta:
+        model = Profile
+        fields = ['address', 'bio', 'age']
+        widgets = {
+            'address' : forms.TextInput(attrs={'placeholder':'Address', 'class':'form-control'}),
+            'bio' : forms.Textarea(attrs={'placeholder':'Bio', 'class':'form-control'}),
+            'age' : forms.TextInput(attrs={'placeholder':'Age', 'type':'number', 'class':'form-control'})
+        }
+
+
+class UserMusicCreateForm(forms.ModelForm):
+    class Meta:
+        model = Music
+        fields = ['singer_name', 'music_name', 'music_file']
+        widgets = {
+            'singer_name' : forms.TextInput(attrs={'placeholder':'Singer-Name...', 'class':'form-control'}),
+            'music_name' : forms.TextInput(attrs={'placeholder':'Music-Name...', 'class':'form-control'}),
+        }
+
+
+class UserImageCreateForm(forms.Form):
+    image_file = forms.ImageField()
+
+
+class UserSearchForm(forms.Form):
+    search_text = forms.CharField(label='', max_length=500, widget=forms.TextInput(attrs={'placeholder':'Search user...', 'class':'form-control'}))

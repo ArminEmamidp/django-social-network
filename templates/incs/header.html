@@ -1,0 +1,13 @@
+<header>
+    <a href="{% url 'base:home' %}">Home</a>
+    {% if not request.user.is_authenticated %}
+    <a href="{% url 'account:user_register' %}">Register</a>
+    <a href="{% url 'account:user_login' %}">Login</a>
+    {% else %}
+    <a href="{% url 'base:posts' %}">Explore</a>
+    <a href="{% url 'account:users' %}">Users</a>
+    <a href="{% url 'account:user_profile' request.user.username %}">Profile</a>
+    <a href="{% url 'account:user_logout' %}">Logout</a>
+    {% endif %}
+</header>
+<br>
