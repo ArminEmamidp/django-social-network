@@ -1,6 +1,15 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
-from .models import Relation, Music, Image
+from .models import Relation, Music, Image, Profile, Story
+
+
+class ProfileInline(admin.StackedInline):
+	model = Profile
+
+class ExtendedUserAdmin(UserAdmin):
+	inlines = [ProfileInline]
 
 
 @admin.register(Relation)
@@ -19,3 +28,14 @@ class MusicAdmin(admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
     list_display = ['id', 'auther', 'created']
     list_filter = ['id', 'auther', 'created']
+
+
+@admin.register(Story)
+class StoryAdmin(admin.ModelAdmin):
+	list_display = ['id', 'auther', 'created']
+	list_filter = ['auther', 'created']
+
+
+
+admin.site.unregister(User)
+admin.site.register(User, ExtendedUserAdmin)

@@ -13,10 +13,10 @@
             <h4><span class="text-primary">Updated:</span> {{ post.updated }}</h4>
             <p>{{ post.description }}</p>
             <div id="" style="text-align:center;">
-                <a href="{{ post.post_detail }}" class="btn btn-primary w-25">Details</a>
+                <a href="{{ post.post_detail }}" class="btn btn-outline-primary w-25">Details</a>
                 {% if request.user == post.auther %}
-                <a href="{{ post.post_update }}" class="btn btn-warning w-25">Edit</a>
-                <a href="{{ post.post_delete }}" class="btn btn-danger w-25">Delete</a>
+                <a href="{{ post.post_update }}" class="btn btn-outline-warning w-25">Edit</a>
+                <a href="{{ post.post_delete }}" class="btn btn-outline-danger w-25">Delete</a>
                 {% endif %}
             </div>
         </div>

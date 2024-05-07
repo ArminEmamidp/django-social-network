@@ -19,7 +19,7 @@ class Post(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return f"post id: {self.id}"
+        return self.title
 
     def post_detail(self):
         return reverse('base:post_detail', args=[self.pk])
@@ -44,7 +44,10 @@ class Comment(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return f"{self.auther} posted a comment to post: {self.post['title'][12]}..."
+        return f"{self.auther} posted a comment to: {self.post.title}"
+    
+    def comment_delete(self):
+        return reverse('base:post_comment_delete', args=[self.post.pk, self.pk])
 
 
 class Like(models.Model):
@@ -53,4 +56,4 @@ class Like(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.auther} liked post: {self.post['title'][12]}..."
+        return f"{self.auther} liked post: {self.post.title}"

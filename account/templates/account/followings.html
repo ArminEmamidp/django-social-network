@@ -10,7 +10,7 @@
     <div class="user-profile">
         <h1>{{ following.to_user.username }}</h1>
         <h4>{{ following.to_user.email }}</h4>
-        <a href="{% url 'account:user_profile' following.to_user %}" class="btn btn-primary w-100">Profile</a>
+        <a href="{% url 'account:user_profile' following.to_user %}" class="btn btn-outline-primary w-100">Profile</a>
     </div>
     <br>
 {% endfor %}

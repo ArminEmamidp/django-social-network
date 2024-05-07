@@ -18,22 +18,23 @@
 <div class="user-profile">
     {% if request.user == user %}
     <div id="user-btns">
-        <a href="{% url 'account:user_update' user.username %}" class="btn btn-primary">Update Profile</a>
-        <a href="{% url 'account:user_delete' user.username %}" class="btn btn-danger" id="user_delete_account_btn">Delete Account</a>
-        <a href="{% url 'base:post_create' %}" class="btn btn-success">Add Post</a>
+        <a href="{% url 'base:post_create' %}" class="btn btn-outline-success">Add Post</a>
+        <a href="{% url 'account:user_create_story' user %}" class="btn btn-outline-dark">Add Story</a>
+        <a href="{% url 'account:user_create_music' user %}" class="btn btn-outline-warning">Add Music</a>
         <br><br>
-        <a href="{% url 'account:user_create_music' user %}" class="btn btn-warning">Add Music</a>
-        <a href="{% url 'account:user_create_image' user %}" class="btn btn-secondary">Add favorites Image</a>
-        <a href="" class="btn btn-dark">Add Story</a>
+        <a href="{% url 'account:user_create_image' user %}" class="btn btn-outline-secondary">Add favorites Image</a>
+        <a href="{% url 'account:user_settings' user %}" class="btn btn-outline-info">Settings</a>
     </div>
     {% elif request.user.id != userid and is_follow == False %}
-    <a href="{% url 'account:user_follow' user %}" class="btn btn-primary w-100">Follow</a>
+    <a href="{% url 'account:user_follow' user %}" class="btn btn-outline-primary w-100">Follow</a>
     {% elif request.user.id != user.id and is_follow == True %}
-    <a href="{% url 'account:user_unfollow' user %}" class="btn btn-danger w-100">Unfollow</a>
+    <a href="{% url 'account:user_unfollow' user %}" class="btn btn-outline-danger w-100">Unfollow</a>
     {% endif %}
 </div>
 <br>
 <div class="user-profile">
+    <h4>Stories: <a href="{% url 'account:user_stories' user %}">{{ stories.count }}</a></h4>
+    <hr>
     <h4>Posts: <a href="{% url 'account:user_posts' user %}">{{ posts.count }}</a></h4>
     <hr>
     <h4>Musics: <a href="{% url 'account:user_musics' user %}">{{ musics.count }}</a></h4>

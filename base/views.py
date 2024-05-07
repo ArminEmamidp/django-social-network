@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.contrib import messages
-from django.http import JsonResponse
 
 from .models import Comment, Like, Post
 from .forms import PostCreateForm, CommentSendForm, PostSearchForm
@@ -184,3 +183,11 @@ class PostUpdateView(View):
             return render(request, self.template_name, {
                 'form' : form
             })
+
+
+def post_comment_delete(request, id, comment_id):
+    post = get_object_or_404(Post, id=id)
+    comment = post.comments.get(id=comment_id)
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
+    if request.user != post.auther: messages.error(request, 'You can`t delete the comment.', 'danger'); return redirect(post.post_detail())
+    comment.delete(); messages.success(request, 'You have deleted a comment successfully', 'success'); return redirect(post.post_detail())

@@ -14,7 +14,7 @@
         <h4><span class="text-warning">Made by:</span> <a href="{% url 'account:user_profile' post.auther %}">{{ post.auther }}</a></h4>
         <h5><span class="text-primary">Created:</span> {{ post.created }}</h5>
         <h5><span class="text-primary">Updated:</span> {{ post.updated }}</h5>
-        <a href="{{ post.post_like }}" class="btn btn-primary w-100 {% if can_like == False %} disabled {% endif %}">Like {{ post.likes.count }}</a>
+        <a href="{{ post.post_like }}" class="btn btn-outline-primary w-100 {% if can_like == False %} disabled {% endif %}">Like {{ post.likes.count }}</a>
     </div>
 </div>
 <br>
@@ -23,7 +23,7 @@
         <h5>Comments: {{ comments.all.count }}</h5>
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Send" class="btn btn-primary w-50">
+        <input type="submit" value="Send" class="btn btn-outline-primary w-50">
     </form>
 </div>
 <br>
@@ -32,6 +32,9 @@
         <h4><span class="text-danger">Posted by:</span> <a href="{% url 'account:user_profile' comment.auther %}">{{ comment.auther }}</a></h4>
         <h5>{{ comment.created }}</h5>
         <p>{{ comment.body }}</p>
+        {% if request.user == post.auther %}
+        <a href="{{ comment.comment_delete }}" class="btn btn-outline-danger w-100">Delete</a>
+        {% endif %}
     </div> <br>
 {% endfor %}
 

@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
-from .models import Relation, Music, Image
+from .models import Relation, Music, Image, Story
 from .forms import (UserRegisterForm, UserLoginForm, UserUpdateProfileForm,
-                    UserMusicCreateForm, UserImageCreateForm, UserSearchForm)
-
+                    UserMusicCreateForm, UserImageCreateForm, UserSearchForm,
+                    UserStoryCreateForm)
 
 
 page_urls = {
@@ -92,6 +95,21 @@ def user_logout_view(request):
         return redirect(page_urls['home'])
 
 
+class UserChangePasswordView(SuccessMessageMixin, PasswordChangeView, View):
+    template_name = 'account/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('account:user_password_change')
+
+
+def user_settings_view(request, username):
+    user = get_object_or_404(User, username=username)
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
+    if request.user != user:
+        messages.error(request, 'You don`t have access to this section', 'danger')
+        return redirect('account:user_profile', user)
+    return render(request, 'account/settings.html', {'user' : user})
+
+
 class UsersView(View):
     template_name = 'account/users.html'
     form_class = UserSearchForm
@@ -126,6 +144,7 @@ class UserProfileView(View):
     def get(self, request, **kwargs):
         user = get_object_or_404(User, username=kwargs['username'])
         relation = Relation.objects.filter(from_user=request.user, to_user=user)
+        stories = user.stories.all()
         posts = user.posts.all()
         musics = user.musics.all()
         images = user.images.all()
@@ -137,6 +156,7 @@ class UserProfileView(View):
 
         return render(request, self.template_name, {
             'user' : user,
+            'stories' : stories,
             'posts' : posts,
             'musics' : musics,
             'images' : images,
@@ -400,16 +420,14 @@ class UserImageCreateView(View):
             Image.objects.create(auther=user, image_file=cd['image_file'])
             messages.success(request, 'You have created a image successfully', 'success')
             return redirect('account:user_profile', request.user)
-        else:
-            return render(request, self.template_name, {
-                'form' : form,
-            })
+        return render(request, self.template_name, {
+            'form' : form,
+        })
 
 
 def user_images_view(request, username):
     user = get_object_or_404(User, username=username)
-    if not request.user.is_authenticated:
-        return redirect(page_urls['home'])
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
     images = user.images.all()
     return render(request, 'account/images.html', {
         'images' : images
@@ -419,11 +437,59 @@ def user_images_view(request, username):
 def user_image_delete_view(request, username, id):
     user = get_object_or_404(User, username=username)
     image = get_object_or_404(Image, id=id)
-    if not request.user.is_authenticated:
-        return redirect(page_urls['home'])
-    if request.user != user:
-        messages.error(request, 'You can`t delete the image', 'danger')
-    else:
-        image.delete()
-        messages.success(request, 'You have deleted a image successfully', 'success')
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
+    if request.user != user: messages.error(request, 'You can`t delete the image', 'danger')
+    else: image.delete(); messages.success(request, 'You have deleted a image successfully', 'success')
     return redirect('account:user_images', user)
+
+
+class UserStoryCreateView(View):
+    template_name = 'account/create-story.html'
+    form_class = UserStoryCreateForm
+
+    def setup(self, request, *args, **kwargs):
+        self.user_instance = get_object_or_404(User, username=kwargs['username'])
+        return super().setup(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        user = self.user_instance
+        form = self.form_class()
+
+        return render(request, self.template_name, {
+            'user' : user,
+            'form' : form 
+        })
+
+    def post(self, request, **kwargs):
+        user = self.user_instance
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+            Story.objects.create(auther=user, content=cd['content'])
+            messages.success(request, 'You have created a story successfully', 'success')
+            return redirect('account:user_profile', user)
+        else:
+            return render(request, self.template_name, {
+                'user' : user,
+                'form' : form
+            })
+
+
+def user_stories_view(request, username):
+    user = get_object_or_404(User, username=username)
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
+    stories = user.stories.all()
+    return render(request, 'account/stories.html', {
+        'user' : user,
+        'stories' : stories
+    })
+
+
+def user_story_delete_view(request, username, id):
+    user = get_object_or_404(User, username=username)
+    story = get_object_or_404(Story, id=id)
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
+    if request.user != user: messages.error(request, 'You can`t delete the story', 'danger')
+    else: story.delete(); messages.success(request, 'You have deleted a story successfully', 'success')
+    return redirect('account:user_stories', user)

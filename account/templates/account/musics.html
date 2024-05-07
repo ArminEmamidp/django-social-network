@@ -12,7 +12,7 @@
         <h3>{{ music.music_name }}</h3>
         <audio src="/media/{{ music.music_file }}" controls class="alert alert-secondary w-75"></audio>
         {% if request.user == user %}
-          <br><a href="{{ music.delete }}" class="btn btn-danger w-100">Delete</a>
+          <br><a href="{{ music.music_delete }}" class="btn btn-outline-danger w-100">Delete</a>
         {% endif %}
     </div>
     <br>

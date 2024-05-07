@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.http import HttpRequest
 
-from .models import Music, Image, Profile
+from .models import Music, Profile
+
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'Username', 'class':'form-control'}))
@@ -33,7 +33,7 @@ class UserRegisterForm(forms.Form):
 
         if p1 and p2 and p1 != p2:
             raise ValidationError('Passwords must match!')
-
+    
 
 class UserUpdateProfileForm(forms.ModelForm):
     # username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder':'Username', 'class':'form-control'}))
@@ -58,12 +58,17 @@ class UserMusicCreateForm(forms.ModelForm):
         widgets = {
             'singer_name' : forms.TextInput(attrs={'placeholder':'Singer-Name...', 'class':'form-control'}),
             'music_name' : forms.TextInput(attrs={'placeholder':'Music-Name...', 'class':'form-control'}),
+            'music_file' : forms.FileInput(attrs={'class':'form-control-file'})
         }
 
 
 class UserImageCreateForm(forms.Form):
-    image_file = forms.ImageField()
+    image_file = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
 
 
 class UserSearchForm(forms.Form):
     search_text = forms.CharField(label='', max_length=500, widget=forms.TextInput(attrs={'placeholder':'Search user...', 'class':'form-control'}))
+
+
+class UserStoryCreateForm(forms.Form):
+    content = forms.CharField(max_length=2000, widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Content...'}))
