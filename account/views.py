@@ -9,7 +9,7 @@ from django.contrib import messages
 
 from .models import Relation, Music, Image, Story
 from .forms import (UserRegisterForm, UserLoginForm, UserUpdateProfileForm,
-                    UserMusicCreateForm, UserImageCreateForm, UserSearchForm,
+               	     UserMusicCreateForm, UserImageCreateForm, UserSearchForm,
                     UserStoryCreateForm)
 
 
@@ -97,7 +97,7 @@ def user_logout_view(request):
 
 class UserChangePasswordView(SuccessMessageMixin, PasswordChangeView, View):
     template_name = 'account/change_password.html'
-    success_message = "Successfully Changed Your Password"
+    success_message = "You have changed the password successfully"
     success_url = reverse_lazy('account:user_password_change')
 
 

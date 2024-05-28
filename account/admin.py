@@ -6,10 +6,10 @@ from .models import Relation, Music, Image, Profile, Story
 
 
 class ProfileInline(admin.StackedInline):
-	model = Profile
+    model = Profile
 
 class ExtendedUserAdmin(UserAdmin):
-	inlines = [ProfileInline]
+    inlines = [ProfileInline]
 
 
 @admin.register(Relation)
