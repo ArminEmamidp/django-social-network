@@ -33,5 +33,9 @@ urlpatterns = [
 
     path('<username>/create-story/', views.UserStoryCreateView.as_view(), name='user_create_story'),
     path('<username>/stories/', views.user_stories_view, name='user_stories'),
-    path('<username>/stories/<id>/delete/', views.user_story_delete_view, name='user_story_delete')
+    path('<username>/stories/<id>/delete/', views.user_story_delete_view, name='user_story_delete'),
+
+    path('<username>/create-link/', views.UserLinkCreateView.as_view(), name='user_create_link'),
+    path('<username>/links/', views.user_links_view, name='user_links'),
+    path('<username>/links/<id>/', views.user_link_delete_view, name='user_link_delete'),
 ]

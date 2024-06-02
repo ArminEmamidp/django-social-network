@@ -68,3 +68,16 @@ class Story(models.Model):
 
     def story_delete(self):
         return reverse('account:user_story_delete', args=[self.auther, self.id])
+
+
+# the Link(model) is user social(s) addres)
+class Link(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='links')
+    title = models.CharField(max_length=100)
+    url = models.URLField(max_length=200)
+
+    def str(self):
+        return f"The links of {self.user.username}"
+    
+    def link_delete(self):
+        return reverse('account:user_link_delete', args=[self.user.username, self.id])

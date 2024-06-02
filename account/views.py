@@ -7,10 +7,9 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
-from .models import Relation, Music, Image, Story
-from .forms import (UserRegisterForm, UserLoginForm, UserUpdateProfileForm,
-               	     UserMusicCreateForm, UserImageCreateForm, UserSearchForm,
-                    UserStoryCreateForm)
+from .models import Relation, Music, Image, Story, Link
+from .forms import (UserRegisterForm, UserLoginForm, UserUpdateProfileForm, UserMusicCreateForm, UserImageCreateForm, 
+                    UserSearchForm, UserStoryCreateForm, UserLinkCreateForm)
 
 
 page_urls = {
@@ -144,6 +143,7 @@ class UserProfileView(View):
     def get(self, request, **kwargs):
         user = get_object_or_404(User, username=kwargs['username'])
         relation = Relation.objects.filter(from_user=request.user, to_user=user)
+        links = user.links.all()
         stories = user.stories.all()
         posts = user.posts.all()
         musics = user.musics.all()
@@ -156,6 +156,7 @@ class UserProfileView(View):
 
         return render(request, self.template_name, {
             'user' : user,
+            'links' : links,
             'stories' : stories,
             'posts' : posts,
             'musics' : musics,
@@ -451,6 +452,14 @@ class UserStoryCreateView(View):
         self.user_instance = get_object_or_404(User, username=kwargs['username'])
         return super().setup(request, *args, **kwargs)
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(page_urls['home'])
+        if request.user != self.user_instance:
+            messages.error(request, 'You can`t create story for this user', 'danger')
+            return redirect('account:user_profile', self.user_instance)
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request, **kwargs):
         user = self.user_instance
         form = self.form_class()
@@ -493,3 +502,53 @@ def user_story_delete_view(request, username, id):
     if request.user != user: messages.error(request, 'You can`t delete the story', 'danger')
     else: story.delete(); messages.success(request, 'You have deleted a story successfully', 'success')
     return redirect('account:user_stories', user)
+
+
+class UserLinkCreateView(View):
+    template_name = 'account/create-link.html'
+    form_class = UserLinkCreateForm
+
+    def setup(self, request, *args, **kwargs):
+        self.user_instance = get_object_or_404(User, username=kwargs['username'])
+        return super().setup(request, *args, **kwargs)
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(page_urls['home'])
+        if request.user != self.user_instance:
+            messages.error(request, 'You can`t create link for this user', 'danger')
+            return redirect('account:user_profile', self.user_instance)
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, **kwargs):
+        user = self.user_instance
+        form = self.form_class()
+        return render(request, self.template_name, {'form':form})
+    
+    def post(self, request, **kwargs):
+        user = self.user_instance
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+            Link.objects.create(user=user, title=cd['title'], url=cd['url']).save()
+            messages.success(request, 'You have created a link successfully', 'success')
+            return redirect('account:user_profile', user.username)
+        else:
+            return render(request, self.template_name, {'form':form})
+
+
+def user_links_view(request, username):
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
+    user = get_object_or_404(User, username=username)
+    links = user.links.all()
+    return render(request, 'account/links.html', {'user':user, 'links':links})
+
+
+def user_link_delete_view(request, username, id):
+    if not request.user.is_authenticated: return redirect(page_urls['home'])
+    user = get_object_or_404(User, username=username)
+    link = get_object_or_404(Link, user=user, id=id)
+    link.delete()
+    messages.success(request, 'You have deleted a link successfully', 'success')
+    return redirect('account:user_profile', user.username)
