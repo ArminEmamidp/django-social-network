@@ -8,9 +8,7 @@
 ```shell
 pip install -r requirements.txt
 
-python manage.py makemigrations account
-
-python manage.py makemigrations base
+python manage.py makemigrations account base
 
 python manage.py migrate
 
