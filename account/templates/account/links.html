@@ -12,6 +12,8 @@
             <a href="{{ link.link_delete }}" class="btn btn-outline-danger w-50">Delete</a>
         </div> <br>
     {% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not link /></h2>
 {% endif %}
 
 {% endblock %}

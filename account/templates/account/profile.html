@@ -42,11 +42,11 @@
     <hr>
     <h4>Posts: <a href="{% url 'account:user_posts' user %}">{{ posts.count }}</a></h4>
     <hr>
+    <h4>Links: <a href="{% url 'account:user_links' user %}">{{ links.count }}</a></h4>
+    <hr>
     <h4>Musics: <a href="{% url 'account:user_musics' user %}">{{ musics.count }}</a></h4>
     <hr>
     <h4>Images: <a href="{% url 'account:user_images' user %}">{{ images.count }}</a></h4>
-    <hr>
-    <h4>Links: <a href="{% url 'account:user_links' user %}">{{ links.count }}</a></h4>
     <hr>
     <h4>Followers: <a href="{% url 'account:user_followers' user %}">{{ user.followers.count }}</a></h4>
     <hr>
