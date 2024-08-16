@@ -1,6 +1,6 @@
 ![](https://badgen.net/badge/Editor.js/v2.0/blue)
 
-# A social network created with Python3 and Django Framework.
+# This is a social network created with Python3 and Django Framework.
 
 # Instaling:
 ## Go to the project path in the terminal and run the following commands:
