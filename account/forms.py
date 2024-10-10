@@ -26,7 +26,6 @@ class UserRegisterForm(forms.Form):
         for char in invalid_chars:
             if char in username:
                 raise ValidationError('Your username has invalid char(s)..!')
-                return username
 
         if user.exists():
             raise ValidationError('This username already exists!')
