@@ -2,7 +2,7 @@
 
 # This is a social network created with Python3 and Django Framework.
 
-# Instaling:
+# Installing:
 ## Go to the project path in the terminal and run the following commands:
 
 ```shell
