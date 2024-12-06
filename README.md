@@ -1,6 +1,6 @@
 ![](https://badgen.net/badge/Editor.js/v2.0/blue)
 
-## This is a social network created with <code style="color:lightgreen">Python3</code> and Django Framework.
+## This is a social network created with <span style="color:lightgreen">Python3</span> and Django Framework.
 
 ### _Features_:
   - Authentication System:
