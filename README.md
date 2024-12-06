@@ -1,15 +1,32 @@
 ![](https://badgen.net/badge/Editor.js/v2.0/blue)
 
-# This is a social network created with Python3 and Django Framework.
+## This is a social network created with Python3 and Django Framework.
 
-## Features:
-   - Authentication System
+### Features:
+  - Authentication System:
      - Sign-Up
      - Sign-In
      - Sign-Out
 
-# Installing:
-## Go to the project path in the terminal and run the following commands:
+   - Account Section:
+     - User Profile
+     - Update Information
+     - Change Password
+     - Follow & Unfollow
+     - Page to finding Users
+     - Page to add your (Links, Images, Musics, Story)
+       
+   - Posts Section:
+     - Explore
+     - Post-Detail
+     - Post-Update
+     - Post-Delete
+     - Post Like
+     - Adding comments
+
+## Installing:
+
+Go to the project path in the terminal and run the following commands:
 
 ```shell
 pip install -r requirements.txt
@@ -21,7 +38,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-## Open the browser and go to this address:
+### Open the browser and go to this address:
 
 ```shell
 localhost:8000
