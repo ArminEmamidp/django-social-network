@@ -2,6 +2,12 @@
 
 # This is a social network created with Python3 and Django Framework.
 
+## Features:
+   - Authentication System
+     - Sign-Up
+     - Sign-In
+     - Sign-Out
+
 # Installing:
 ## Go to the project path in the terminal and run the following commands:
 
