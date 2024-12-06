@@ -24,7 +24,7 @@
      - Post Like
      - Adding comments
 
-## __Installing__:
+## _Installing_:
 
 Go to the project path in the terminal and run the following commands:
 
