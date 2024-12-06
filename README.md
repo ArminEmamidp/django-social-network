@@ -2,7 +2,7 @@
 
 ## This is a social network created with Python3 and Django Framework.
 
-### Features:
+### _Features_:
   - Authentication System:
      - Sign-Up
      - Sign-In
