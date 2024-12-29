@@ -1,0 +1,81 @@
+header {
+    padding: 1%;
+    background-color: rgb(107, 154, 170);
+}
+header a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin-right: 1%;
+    color: aliceblue;
+    transition: 0.3s;
+}
+header a:hover {
+    color: cyan;
+}
+
+.content {
+    padding: 1%;
+}
+
+#base-form {
+    width: 80%;
+    padding: 2%;
+    margin-left: 9%;
+    margin-bottom: 2%;
+    box-shadow: 4px 6px 8px black;
+    transition: 0.2s;
+}
+#base-form:hover {
+    box-shadow: -4px 6px 8px black;
+}
+#base-form input[type='submit'] {
+    margin-left: 23%;
+}
+
+.posts {
+    width: 80%;
+    margin-left: 9%;
+    padding: 1%;
+    border: 3px solid rgb(115, 154, 187);
+    border-radius: 5px;
+    box-shadow: 4px 6px 8px black;
+    transition: 0.2s;
+}
+.posts:hover {
+    box-shadow: -4px 6px 8px black;
+}
+.posts:hover {
+    box-shadow: -5px 7px 7px black;
+}
+/* .posts image {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: red;
+} */
+
+.search_form {
+  width: 80%;
+  margin-left: 9%;
+  padding: 1%;
+}
+
+/* Language Translator section */
+#container {
+    margin-left: 24%;
+}
+#container h2 {
+    text-align: center;
+}
+#container textarea {
+    font-size: 1.3rem;
+}
+#container input[type='submit'] {
+    margin-left: 25%;
+}
+
+.select-language-box {
+    margin-left: 37%;
+}
+/*----------------------------*/

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Update Profile {% endblock %}
+
+{% block content %}
+
+<form action="" method="post" class="bg-light" id="base-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update" class="btn btn-outline-primary w-50">
+</form>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} > Stories {% endblock %}
+
+{% block content %}
+
+{% if stories %}
+{% for story in stories %}
+    <div class="user-profile">
+    	<h4>{{ story.content }}</h4>
+    	{% if story.auther == request.user %}
+    	<a href="{{ story.story_delete }}" class="btn btn-outline-danger w-100">Delete</a>
+    	{% endif %}
+    </div>
+    <br>
+{% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not story /></h2>
+{% endif %}
+
+{% endblock %}

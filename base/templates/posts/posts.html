@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Posts {% endblock %}
+
+{% block content %}
+
+{% if posts %}
+<form action="" method="get" class="alert alert-warning search_form">
+    {{ form.as_p }}
+    <input type="submit" value="Search" class="btn btn-outline-warning w-100">
+</form>
+{% for post in posts %}
+    <div class="user-profile" style="text-align: left;">
+        <h3><span class="text-primary">Title:</span> {{ post.title }}</h3>
+        <h4><span class="text-primary">Auther:</span> <a href="{% url 'account:user_profile' post.auther %}">{{ post.auther }}</a></h4>
+        <h4><span class="text-primary">Created:</span> {{ post.created }}</h4>
+        <h4><span class="text-primary">Updated:</span> {{ post.updated }}</h4>
+        <p>{{ post.description }}</p>
+        <a href="{{ post.post_detail }}" class="btn btn-outline-success w-100">Details</a>
+    </div>
+    <br>
+{% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not post /></h2>
+{% endif %}
+
+{% endblock %}

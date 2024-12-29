@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} > Followers {% endblock %}
+
+{% block content %}
+
+{% if followers %}
+{% for follower in followers %}
+    <div class="user-profile">
+        <h1>{{ follower.from_user.username }}</h1>
+        <h4>{{ follower.from_user.email }}</h4>
+        <a href="{% url 'account:user_profile' follower.from_user %}" class="btn btn-outline-primary w-100">Profile</a>
+    </div>
+    <br>
+{% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not follower /></h2>
+{% endif %}
+
+{% endblock %}

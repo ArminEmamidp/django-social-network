@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} > Images {% endblock %}
+
+{% block content %}
+
+{% if images %}
+{% for image in images %}
+    <div class="user-profile">
+        <img src="/media/{{ image.image_file }}" class="w-100" style="border-radius:5px;">
+        {% if request.user == image.auther %}
+          <br><br><a href="{{ image.image_delete }}" class="btn btn-outline-danger w-100">Delete</a>
+        {% endif %}
+    </div>
+    <br>
+{% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not image /></h2>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Post Create {% endblock %}
+
+{% block content %}
+
+<form action="" method="post" class="bg-light" id="base-form">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <input type="submit" value="Create" class="btn btn-outline-primary w-50">
+</form>
+
+{% endblock %}

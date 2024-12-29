@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Users {% endblock %}
+
+{% block content %}
+
+{% if users %}
+<form action="" method="get" class="alert alert-warning search_form">
+    {{ form.as_p }}
+    <input type="submit" value="Search" class="btn btn-outline-warning w-100">
+</form>
+{% for user in users %}
+    <div class="user-profile">
+        <h1>{{ user }}</h1>
+        <h4>{{ user.email }}</h4>
+        <a href="{% url 'account:user_profile' user %}" class="btn btn-outline-primary w-100">Profile</a>
+    </div>
+    <br>
+{% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not user /></h2>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block title %} User Login {% endblock %}
+
+{% block content %}
+
+<form action="" method="post" class="bg-light" id="base-form">
+    <!-- <h2 class="text-dark" style="text-align:center;">Login Form</h2> -->
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Login" class="btn btn-outline-primary w-50">
+</form>
+
+{% endblock %}

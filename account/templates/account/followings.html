@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} > Followings {% endblock %}
+
+{% block content %}
+
+{% if followings %}
+{% for following in followings %}
+    <div class="user-profile">
+        <h1>{{ following.to_user.username }}</h1>
+        <h4>{{ following.to_user.email }}</h4>
+        <a href="{% url 'account:user_profile' following.to_user %}" class="btn btn-outline-primary w-100">Profile</a>
+    </div>
+    <br>
+{% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not following /></h2>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Image Create {% endblock %}
+
+{% block content %}
+
+<form action="" method="post" class="bg-light" id="base-form" enctype='multipart/form-data'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create" class="btn btn-outline-primary w-50">
+</form>
+
+{% endblock %}

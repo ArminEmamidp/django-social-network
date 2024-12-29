@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} > Musics {% endblock %}
+
+{% block content %}
+
+{% if musics %}
+{% for music in musics %}
+    <div class="user-profile">
+        <h1>{{ music.singer_name }}</h1>
+        <h3>{{ music.music_name }}</h3>
+        <audio src="/media/{{ music.music_file }}" controls class="alert alert-secondary w-75"></audio>
+        {% if request.user == user %}
+          <br><a href="{{ music.music_delete }}" class="btn btn-outline-danger w-100">Delete</a>
+        {% endif %}
+    </div>
+    <br>
+{% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not music /></h2>
+{% endif %}
+
+{% endblock %}

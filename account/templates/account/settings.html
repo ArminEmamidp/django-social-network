@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} > settings {% endblock %}
+
+{% block content %}
+
+<div class="user-profile">
+	<a href="{% url 'account:user_update' user.username %}" class="btn btn-outline-primary w-100">Update Profile</a>
+	<br><br>
+    <a href="{% url 'account:user_create_link' user.username %}" class="btn btn-outline-warning w-100">Create Link</a>
+	<br><br>
+     <a href="{% url 'account:user_delete' user.username %}" class="btn btn-outline-danger w-100" id="user_delete_account_btn">Delete Account</a>
+     <br><br>
+    <a href="{% url 'account:user_password_change' %}"class='btn btn-outline-info w-100'>Change Password</a>
+</div>
+
+{% endblock %}

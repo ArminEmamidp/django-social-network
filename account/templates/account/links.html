@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} > Links {% endblock %}
+
+{% block content %}
+
+{% if links %}
+    {% for link in links %}
+        <div class="user-profile">
+            <h2><a href="{{ link.url }}">{{ link.title }}</a></h2> 
+            <a href="{{ link.link_delete }}" class="btn btn-outline-danger w-50">Delete</a>
+        </div> <br>
+    {% endfor %}
+{% else %}
+    <h2 class="text-danger" style="text-align: center;">< There are not link /></h2>
+{% endif %}
+
+{% endblock %}

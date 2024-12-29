@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ user }} - Posts {% endblock %}
+
+{% block content %}
+
+{% if posts %}
+    {% for post in posts %}
+        <div class="user-profile" style="text-align: left;">
+            <h3><span class="text-primary">Title:</span> {{ post.title }}</h3>
+            <h4><span class="text-primary">Created:</span> {{ post.created }}</h4>
+            <h4><span class="text-primary">Updated:</span> {{ post.updated }}</h4>
+            <p>{{ post.description }}</p>
+            <div id="" style="text-align:center;">
+                <a href="{{ post.post_detail }}" class="btn btn-outline-primary w-25">Details</a>
+                {% if request.user == post.auther %}
+                <a href="{{ post.post_update }}" class="btn btn-outline-warning w-25">Edit</a>
+                <a href="{{ post.post_delete }}" class="btn btn-outline-danger w-25">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+{% else %}
+        <h2 class="text-danger" style="text-align: center;">< There are not post /></h2>
+{% endif %}
+
+{% endblock %}
