@@ -14,14 +14,15 @@
      - Change Password
      - Follow & Unfollow
      - Page to finding Users
-     - Page to add your (Links, Images, Musics, Story)
+     - Page to add your (Links, Images, Musics, Story, Post)
        
    - Posts Section:
      - Explore
+     - Post-Create
      - Post-Detail
      - Post-Update
      - Post-Delete
-     - Post Like
+     - Post-Like
      - Adding comments
 
 ## _Installing_:
