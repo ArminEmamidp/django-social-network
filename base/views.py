@@ -5,7 +5,6 @@ from django.contrib import messages
 from .models import Comment, Like, Post
 from .forms import PostCreateForm, CommentSendForm, PostSearchForm
 
-from deep_translator import GoogleTranslator
 
 page_urls = {
     'home' : 'base:home'
